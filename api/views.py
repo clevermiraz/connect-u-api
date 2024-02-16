@@ -252,6 +252,7 @@ class SubredditPostVotes(APIView):
                 return Response(serializer.data, status=status.HTTP_200_OK)
 
             except post.votes.model.DoesNotExist:
+                # Basically Always Create a new vote Cause the user can only vote once. and we delete the vote if the user wants to remove the vote.
                 vote = post.votes.create(user=user, userId=user.id, voteType=voteType, postId=postId)
 
                 serializer = VoteSerializer(vote, many=False)
