@@ -96,6 +96,10 @@ class CheckSubscription(APIView):
 
         except Subreddit.DoesNotExist:
             return Response({'message': 'SubReddit Does Not Exist', 'status': False}, status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            if "undefined” is not a valid UUID" in str(e):
+                return Response({'message': 'SubReddit Does Not Exist', 'status': False}, status=status.HTTP_204_NO_CONTENT)
+            return Response({'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def post(self, request):
         # toggle subscription (subscribe/unsubscribe)
